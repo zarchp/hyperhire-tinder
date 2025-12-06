@@ -106,7 +106,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of profiles the current user has not yet swiped on (excluding themselves).",
+                        "description": "List of people the current user has not yet swiped on (like/dislike).",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -246,7 +246,7 @@
                 "tags": [
                     "People"
                 ],
-                "summary": "Undoes the single most recent swipe action performed by the current user.",
+                "summary": "Undo a most recent swipe action performed by the current user.",
                 "operationId": "undoLastSwipe",
                 "responses": {
                     "204": {

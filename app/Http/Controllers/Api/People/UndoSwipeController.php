@@ -14,7 +14,7 @@ use OpenApi\Annotations as OA;
  * @OA\Delete(
  *     path="/api/people/undo-swipes",
  *     operationId="undoLastSwipe",
- *     summary="Undoes the single most recent swipe action performed by the current user.",
+ *     summary="Undo a most recent swipe action performed by the current user.",
  *     tags={"People"},
  *      x={"order": 4},
  *     security={{"X-User-Id": {}}},

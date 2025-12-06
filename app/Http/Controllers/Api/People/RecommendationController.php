@@ -41,7 +41,7 @@ use OpenApi\Annotations as OA;
  *
  *     @OA\Response(
  *         response=200,
- *         description="List of profiles the current user has not yet swiped on (excluding themselves).",
+ *         description="List of people the current user has not yet swiped on (like/dislike).",
  *
  *         @OA\JsonContent(
  *             type="object",
