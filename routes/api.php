@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Api\People\LikedController;
 use App\Http\Controllers\Api\People\RecommendationController;
 use App\Http\Controllers\Api\People\SwipeController;

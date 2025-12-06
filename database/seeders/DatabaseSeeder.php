@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Swipe;
@@ -7,7 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+final class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
@@ -18,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         $users = User::factory(100)->hasPictures(3)->create();
 
-        $usersToLike = $users->random(10);
+        $usersToLike = $users->random(3);
         foreach ($usersToLike as $targetUser) {
             Swipe::create([
                 'actor_user_id' => 1,
@@ -27,7 +29,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $usersToDislike = $users->whereNotIn('id', $usersToLike->pluck('id'))->random(5);
+        $usersToDislike = $users->whereNotIn('id', $usersToLike->pluck('id'))->random(1);
         foreach ($usersToDislike as $targetUser) {
             Swipe::create([
                 'actor_user_id' => 1,

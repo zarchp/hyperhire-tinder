@@ -1,12 +1,14 @@
 <?php
 
-use App\Models\User;
-use App\Models\Swipe;
+declare(strict_types=1);
+
 use App\Mail\PopularUserMail;
+use App\Models\Swipe;
+use App\Models\User;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Console\Scheduling\Schedule;
 
 uses(RefreshDatabase::class);
 
@@ -36,7 +38,6 @@ test('cron job identifies popular users and sends email once', function () {
         ]);
     }
 
-
     $likerIds = $this->likers->take(5)->pluck('id')->all();
     foreach ($likerIds as $actorId) {
         Swipe::create([
@@ -60,11 +61,9 @@ test('cron job identifies popular users and sends email once', function () {
     $this->regularUser->refresh();
     expect($this->regularUser->is_popular_notified)->toBeFalse();
 
-
     Artisan::call('people:notify-popular');
     Mail::assertSent(PopularUserMail::class, 1);
 });
-
 
 test('command is registered in kernel and runs hourly', function () {
     $schedule = app(Schedule::class);

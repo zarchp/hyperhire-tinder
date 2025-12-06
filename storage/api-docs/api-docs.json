@@ -17,7 +17,7 @@
                 "tags": [
                     "People"
                 ],
-                "summary": "Get people that the current user has liked.",
+                "summary": "Get list of people that the current user has liked.",
                 "operationId": "getLikedPeople",
                 "parameters": [
                     {
@@ -189,7 +189,7 @@
                                         "is_match": {
                                             "description": "True if a mutual like was found (only applies if type='like').",
                                             "type": "boolean",
-                                            "example": true
+                                            "example": false
                                         }
                                     },
                                     "type": "object"

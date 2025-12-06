@@ -1,7 +1,9 @@
 <?php
 
-use App\Models\User;
+declare(strict_types=1);
+
 use App\Models\Swipe;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

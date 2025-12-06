@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\People;
 
 use App\Http\Controllers\Controller;
@@ -16,11 +18,14 @@ use OpenApi\Annotations as OA;
  *     tags={"People"},
  *      x={"order": 3},
  *     security={{"X-User-Id": {}}},
+ *
  *     @OA\RequestBody(
  *         required=true,
+ *
  *         @OA\JsonContent(
  *             type="object",
  *             required={"target_user_id", "type"},
+ *
  *             @OA\Property(
  *                 property="target_user_id",
  *                 type="integer",
@@ -36,11 +41,14 @@ use OpenApi\Annotations as OA;
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(
  *         response=201,
  *         description="Swipe recorded successfully.",
+ *
  *         @OA\JsonContent(
  *             type="object",
+ *
  *             @OA\Property(
  *                 property="message",
  *                 type="string",
@@ -49,16 +57,19 @@ use OpenApi\Annotations as OA;
  *             @OA\Property(
  *                 property="is_match",
  *                 type="boolean",
- *                 example=true,
+ *                 example=false,
  *                 description="True if a mutual like was found (only applies if type='like')."
  *             )
  *         )
  *     ),
+ *
  *     @OA\Response(
  *         response=400,
  *         description="Bad Request",
+ *
  *         @OA\JsonContent(
  *             type="object",
+ *
  *             @OA\Property(
  *                 property="message",
  *                 type="string",
@@ -66,11 +77,14 @@ use OpenApi\Annotations as OA;
  *             ),
  *         )
  *     ),
+ *
  *     @OA\Response(
  *         response=409,
  *         description="Conflict",
+ *
  *         @OA\JsonContent(
  *             type="object",
+ *
  *             @OA\Property(
  *                 property="message",
  *                 type="string",
@@ -78,13 +92,14 @@ use OpenApi\Annotations as OA;
  *             ),
  *         )
  *     ),
+ *
  *     @OA\Response(
  *         response=422,
  *         description="Validation Error"
  *     )
  * )
  */
-class SwipeController extends Controller
+final class SwipeController extends Controller
 {
     public function __invoke(SwipeRequest $request)
     {

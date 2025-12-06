@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\People;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PeopleCollection;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use OpenApi\Annotations as OA;
 
 /**
@@ -23,6 +25,7 @@ use OpenApi\Annotations as OA;
  *         in="query",
  *         required=false,
  *         description="The page number to retrieve",
+ *
  *         @OA\Schema(type="integer", example=1)
  *     ),
  *
@@ -31,26 +34,31 @@ use OpenApi\Annotations as OA;
  *         in="query",
  *         required=false,
  *         description="Number of results per page",
+ *
  *         @OA\Schema(type="integer", example=10)
  *     ),
  *
  *     @OA\Response(
  *         response=200,
  *         description="List of people the current user has liked.",
+ *
  *         @OA\JsonContent(
  *             type="object",
+ *
  *             @OA\Property(
  *                 property="data",
  *                 type="array",
+ *
  *                 @OA\Items(ref="#/components/schemas/UserProfile")
  *             ),
+ *
  *             @OA\Property(property="links", type="object"),
  *             @OA\Property(property="meta", type="object")
  *         )
  *     )
  * )
  */
-class LikedController extends Controller
+final class LikedController extends Controller
 {
     public function __invoke(Request $request)
     {

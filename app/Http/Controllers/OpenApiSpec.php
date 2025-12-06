@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use OpenApi\Annotations as OA;
@@ -28,6 +30,7 @@ use OpenApi\Annotations as OA;
  *     schema="UserPicture",
  *     title="User Picture",
  *     description="A picture belonging to a user profile.",
+ *
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="image_url", type="string", example="https://loremflickr.com/500/500/face,person"),
  *     @OA\Property(property="order", type="integer", example=0, description="Order of the picture (0 is primary).")
@@ -37,6 +40,7 @@ use OpenApi\Annotations as OA;
  *     schema="UserProfile",
  *     title="User Profile",
  *     description="A complete profile for a user.",
+ *
  *     @OA\Property(property="id", type="integer", example=10),
  *     @OA\Property(property="name", type="string", example="Jane Doe"),
  *     @OA\Property(property="age", type="integer", example=25),
@@ -44,11 +48,12 @@ use OpenApi\Annotations as OA;
  *     @OA\Property(
  *         property="pictures",
  *         type="array",
+ *
  *         @OA\Items(ref="#/components/schemas/UserPicture")
  *     )
  * )
  */
-class OpenApiSpec
+final class OpenApiSpec
 {
     //
 }

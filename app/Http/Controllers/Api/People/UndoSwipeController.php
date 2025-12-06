@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\People;
 
 use App\Http\Controllers\Controller;
@@ -16,6 +18,7 @@ use OpenApi\Annotations as OA;
  *     tags={"People"},
  *      x={"order": 4},
  *     security={{"X-User-Id": {}}},
+ *
  *     @OA\Response(
  *         response=204,
  *         description="Successfully deleted the last swipe record. No content is returned."
@@ -26,7 +29,7 @@ use OpenApi\Annotations as OA;
  *     )
  * )
  */
-class UndoSwipeController extends Controller
+final class UndoSwipeController extends Controller
 {
     public function __invoke(Request $request)
     {
@@ -37,7 +40,7 @@ class UndoSwipeController extends Controller
             ->orderBy('created_at', 'desc')
             ->first();
 
-        if (!$lastSwipe) {
+        if (! $lastSwipe) {
             return response()->json([
                 'message' => 'No recent swipes found to undo.',
             ], JsonResponse::HTTP_NOT_FOUND);

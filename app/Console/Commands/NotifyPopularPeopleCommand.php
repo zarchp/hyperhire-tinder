@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Mail\PopularUserMail;
@@ -7,7 +9,7 @@ use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
-class NotifyPopularPeopleCommand extends Command
+final class NotifyPopularPeopleCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -42,6 +44,7 @@ class NotifyPopularPeopleCommand extends Command
 
         if ($popularUsers->isEmpty()) {
             $this->info('No new popular users found.');
+
             return Command::SUCCESS;
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Api\People;
 
 use App\Http\Controllers\Controller;
@@ -24,6 +26,7 @@ use OpenApi\Annotations as OA;
  *         in="query",
  *         required=false,
  *         description="The page number to retrieve",
+ *
  *         @OA\Schema(type="integer", example=1)
  *     ),
  *
@@ -32,26 +35,31 @@ use OpenApi\Annotations as OA;
  *         in="query",
  *         required=false,
  *         description="Number of results per page",
+ *
  *         @OA\Schema(type="integer", example=10)
  *     ),
  *
  *     @OA\Response(
  *         response=200,
  *         description="List of profiles the current user has not yet swiped on (excluding themselves).",
+ *
  *         @OA\JsonContent(
  *             type="object",
+ *
  *             @OA\Property(
  *                 property="data",
  *                 type="array",
+ *
  *                 @OA\Items(ref="#/components/schemas/UserProfile")
  *             ),
+ *
  *             @OA\Property(property="links", type="object"),
  *             @OA\Property(property="meta", type="object")
  *         )
  *     ),
  * )
  */
-class RecommendationController extends Controller
+final class RecommendationController extends Controller
 {
     public function __invoke(Request $request)
     {
