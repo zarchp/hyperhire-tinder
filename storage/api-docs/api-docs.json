@@ -1,0 +1,335 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Tinder Clone Backend API",
+        "description": "Backend services for a Tinder-style application, built with Laravel. Authentication is handled via the custom X-User-Id header for testing.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://hyperhire-tinder-api.test",
+            "description": "Main API Server"
+        }
+    ],
+    "paths": {
+        "/api/people/liked": {
+            "get": {
+                "tags": [
+                    "People"
+                ],
+                "summary": "Get people that the current user has liked.",
+                "operationId": "getLikedPeople",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number to retrieve",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of results per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of people the current user has liked.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserProfile"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "X-User-Id": []
+                    }
+                ],
+                "x-order": 2
+            }
+        },
+        "/api/people": {
+            "get": {
+                "tags": [
+                    "People"
+                ],
+                "summary": "Get list of recommended people to swipe on",
+                "operationId": "getRecommendedPeople",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number to retrieve",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of results per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of profiles the current user has not yet swiped on (excluding themselves).",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserProfile"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "X-User-Id": []
+                    }
+                ],
+                "x-order": 1
+            }
+        },
+        "/api/people/swipes": {
+            "post": {
+                "tags": [
+                    "People"
+                ],
+                "summary": "Record a 'like' or 'dislike' action and check for a mutual match.",
+                "operationId": "createSwipe",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "target_user_id",
+                                    "type"
+                                ],
+                                "properties": {
+                                    "target_user_id": {
+                                        "description": "The ID of the user being swiped on.",
+                                        "type": "integer",
+                                        "example": 12
+                                    },
+                                    "type": {
+                                        "description": "The type of swipe action.",
+                                        "type": "string",
+                                        "enum": [
+                                            "like",
+                                            "dislike"
+                                        ],
+                                        "example": "like"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Swipe recorded successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Swipe recorded successfully."
+                                        },
+                                        "is_match": {
+                                            "description": "True if a mutual like was found (only applies if type='like').",
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cannot swipe on yourself."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Already swiped on this person."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "X-User-Id": []
+                    }
+                ],
+                "x-order": 3
+            }
+        },
+        "/api/people/undo-swipes": {
+            "delete": {
+                "tags": [
+                    "People"
+                ],
+                "summary": "Undoes the single most recent swipe action performed by the current user.",
+                "operationId": "undoLastSwipe",
+                "responses": {
+                    "204": {
+                        "description": "Successfully deleted the last swipe record. No content is returned."
+                    },
+                    "404": {
+                        "description": "Not Found (No recent swipes exist for this user)."
+                    }
+                },
+                "security": [
+                    {
+                        "X-User-Id": []
+                    }
+                ],
+                "x-order": 4
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "UserPicture": {
+                "title": "User Picture",
+                "description": "A picture belonging to a user profile.",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "example": "https://loremflickr.com/500/500/face,person"
+                    },
+                    "order": {
+                        "description": "Order of the picture (0 is primary).",
+                        "type": "integer",
+                        "example": 0
+                    }
+                },
+                "type": "object"
+            },
+            "UserProfile": {
+                "title": "User Profile",
+                "description": "A complete profile for a user.",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Jane Doe"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "example": 25
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "Jakarta"
+                    },
+                    "pictures": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/UserPicture"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "X-User-Id": {
+                "type": "apiKey",
+                "description": "The ID of the user performing the action (simulating an authenticated user). Defaults to 1 if omitted.",
+                "name": "X-User-Id",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "People",
+            "description": "People"
+        }
+    ]
+}
