@@ -61,7 +61,7 @@ For full details:
 
 ![ERD](http://hyperhire-tinder.anzar.dev/erd.png)  
 
-### users
+### users (people)
 
 - `id` (bigint, PK)
 - `name` (string)
